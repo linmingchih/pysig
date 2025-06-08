@@ -89,6 +89,25 @@ class BaseSeries:
         ext = os.path.splitext(filename)[1].lower()
         if ext == ".json":
             with open(filename, "w", encoding="utf-8") as f:
+
+                if np.iscomplexobj(self.values):
+                    json.dump(
+                        {
+                            "axis": self.x.tolist(),
+                            "real": self.values.real.tolist(),
+                            "imag": self.values.imag.tolist(),
+                        },
+                        f,
+                    )
+                else:
+                    json.dump(
+                        {
+                            "axis": self.x.tolist(),
+                            "values": self.values.tolist(),
+                        },
+                        f,
+                    )
+=======
                 json.dump(
                     {
                         "axis": self.x.tolist(),
@@ -96,6 +115,7 @@ class BaseSeries:
                     },
                     f,
                 )
+
         elif ext == ".csv":
             with open(filename, "w", newline="") as f:
                 writer = csv.writer(f)
@@ -118,7 +138,14 @@ class BaseSeries:
             with open(filename, "r", encoding="utf-8") as f:
                 data = json.load(f)
             axis = data["axis"]
+
+            if "real" in data and "imag" in data:
+                values = np.array(data["real"]) + 1j * np.array(data["imag"])
+            else:
+                values = data["values"]
+=======
             values = data["values"]
+
         elif ext == ".csv":
             with open(filename, "r", newline="") as f:
                 reader = csv.reader(f)
@@ -136,7 +163,10 @@ class BaseSeries:
 
         return cls(axis, values)
 
+
 =======
+=======
+
 
 class Signal(BaseSeries):
     """Simple signal class representing values over time."""
