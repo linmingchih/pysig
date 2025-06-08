@@ -3,7 +3,7 @@
 `pysig` provides simple classes for working with signals and spectra.  Signals
 store values against time while spectra store complex magnitudes against
 frequency.  The library includes FFT/IFFT conversion, arithmetic on aligned axes
-and interactive plotting with Plotly.  Data can also be saved to JSON or CSV.
+
 
 ## Installation
 
@@ -24,6 +24,7 @@ s2 = ps.Signal([1e-3, 2.1e-3, 2.3e-3, 4e-3], [1.3, 2.3, 1.9, 4])
 sp = s1.fft() + s2.fft()
 ps.plot(ps.db(sp))
 
+
 # operate in the time domain
 s3 = s1 + s2
 s4 = 2 * s1
@@ -37,12 +38,6 @@ print(val, nearest)
 # save and load
 s3.dump("signal.json")
 restored = ps.Signal.load("signal.json")
-
-
-# save and restore a spectrum
-sp.dump("spectrum.json")
-sp_back = ps.Spectrum.load("spectrum.json")
-=======
 
 
 ```

@@ -17,7 +17,7 @@ Common base class used internally by `Signal` and `Spectrum`.
 
 - `create(expr, axis)`: Evaluate an expression using variable `t` (time) or `f` (frequency) to quickly build a `Signal` or `Spectrum`.
 - `nrange(start, stop, step)`: Inclusive numerical range, similar to `numpy.arange` but includes the stop value.
-- `plot(*items)`: Display signals or spectra using Plotly. The resulting figure allows interactive changes to color and line style.
+
 - `db(spectrum)`: Magnitude of a spectrum in decibels.
 - `sin`, `cos`, `exp`: Apply corresponding NumPy functions to a `Signal` or `Spectrum`.
 

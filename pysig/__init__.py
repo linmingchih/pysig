@@ -105,6 +105,7 @@ class BaseSeries:
                         f,
                     )
 
+
                 json.dump(
                     {
                         "axis": self.x.tolist(),
@@ -112,6 +113,7 @@ class BaseSeries:
                     },
                     f,
                 )
+
 
 
         elif ext == ".csv":
@@ -142,7 +144,9 @@ class BaseSeries:
             else:
                 values = data["values"]
 
+
             values = data["values"]
+
 
 
         elif ext == ".csv":
@@ -161,7 +165,6 @@ class BaseSeries:
             raise ValueError("Unsupported file extension")
 
         return cls(axis, values)
-
 
 class Signal(BaseSeries):
     """Simple signal class representing values over time."""
@@ -247,11 +250,15 @@ def db(spectrum):
     return 20 * np.log10(np.abs(spectrum.values))
 
 
-def plot(*items):
-    """Plot signals or spectra using plotly.
 
-    The resulting figure supports interactive changes to color and line
-    style through the plotly UI."""
+def plot(*items, filename="plot.html"):
+    """Plot signals or spectra using Plotly.
+
+    All data are written to ``filename`` as a self-contained HTML file and the
+    file is opened in the default browser.  The resulting figure supports
+    interactive changes to color and line style through the Plotly UI."""
+
+
     fig = go.Figure()
     for idx, item in enumerate(items):
         if isinstance(item, Signal):
@@ -284,7 +291,10 @@ def plot(*items):
         xaxis_title="Time/Frequency",
         yaxis_title="Amplitude",
     )
-    fig.show()
+
+    fig.write_html(filename, auto_open=True)
+    return fig
+
 
 
 def nrange(start, stop, step):
