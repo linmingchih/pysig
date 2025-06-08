@@ -79,12 +79,14 @@ class BaseSeries:
     def __neg__(self):
         return self.__class__(self.x, -self.values)
 
+
     # ---- persistence ------------------------------------------------------
     def dump(self, filename):
         """Save data to ``filename`` in JSON or CSV format."""
         ext = os.path.splitext(filename)[1].lower()
         if ext == ".json":
             with open(filename, "w", encoding="utf-8") as f:
+
                 if np.iscomplexobj(self.values):
                     json.dump(
                         {
@@ -102,6 +104,18 @@ class BaseSeries:
                         },
                         f,
                     )
+
+
+                json.dump(
+                    {
+                        "axis": self.x.tolist(),
+                        "values": self.values.tolist(),
+                    },
+                    f,
+                )
+
+
+
         elif ext == ".csv":
             with open(filename, "w", newline="") as f:
                 writer = csv.writer(f)
@@ -124,10 +138,17 @@ class BaseSeries:
             with open(filename, "r", encoding="utf-8") as f:
                 data = json.load(f)
             axis = data["axis"]
+
             if "real" in data and "imag" in data:
                 values = np.array(data["real"]) + 1j * np.array(data["imag"])
             else:
                 values = data["values"]
+
+
+            values = data["values"]
+
+
+
         elif ext == ".csv":
             with open(filename, "r", newline="") as f:
                 reader = csv.reader(f)
@@ -229,12 +250,15 @@ def db(spectrum):
     return 20 * np.log10(np.abs(spectrum.values))
 
 
+
 def plot(*items, filename="plot.html"):
     """Plot signals or spectra using Plotly.
 
     All data are written to ``filename`` as a self-contained HTML file and the
     file is opened in the default browser.  The resulting figure supports
     interactive changes to color and line style through the Plotly UI."""
+
+
     fig = go.Figure()
     for idx, item in enumerate(items):
         if isinstance(item, Signal):
@@ -267,8 +291,10 @@ def plot(*items, filename="plot.html"):
         xaxis_title="Time/Frequency",
         yaxis_title="Amplitude",
     )
+
     fig.write_html(filename, auto_open=True)
     return fig
+
 
 
 def nrange(start, stop, step):

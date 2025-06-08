@@ -3,7 +3,7 @@
 `pysig` provides simple classes for working with signals and spectra.  Signals
 store values against time while spectra store complex magnitudes against
 frequency.  The library includes FFT/IFFT conversion, arithmetic on aligned axes
-and interactive plotting with Plotly. Plots are saved to `plot.html` and opened automatically.  Data can also be saved to JSON or CSV.
+
 
 ## Installation
 
@@ -24,7 +24,6 @@ s2 = ps.Signal([1e-3, 2.1e-3, 2.3e-3, 4e-3], [1.3, 2.3, 1.9, 4])
 sp = s1.fft() + s2.fft()
 ps.plot(ps.db(sp))
 
-# plots are written to ``plot.html`` and opened in your browser
 
 # operate in the time domain
 s3 = s1 + s2
@@ -40,9 +39,7 @@ print(val, nearest)
 s3.dump("signal.json")
 restored = ps.Signal.load("signal.json")
 
-# save and restore a spectrum
-sp.dump("spectrum.json")
-sp_back = ps.Spectrum.load("spectrum.json")
+
 ```
 
 Additional helper functions `create` and `nrange` make it easy to generate
@@ -56,5 +53,6 @@ sine = ps.create("sin(200*t)", t_axis)
 
 A short script `example.py` demonstrates generating a beat signal by summing two
 sine waves of slightly different frequency.
+
 
 See [help.md](help.md) for API details.
