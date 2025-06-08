@@ -1,8 +1,11 @@
 import numpy as np
 import plotly.graph_objects as go
+
 import json
 import csv
 import os
+=======
+
 
 __all__ = [
     "BaseSeries",
@@ -79,6 +82,7 @@ class BaseSeries:
     def __neg__(self):
         return self.__class__(self.x, -self.values)
 
+
     # ---- persistence ------------------------------------------------------
     def dump(self, filename):
         """Save data to ``filename`` in JSON or CSV format."""
@@ -131,6 +135,8 @@ class BaseSeries:
             raise ValueError("Unsupported file extension")
 
         return cls(axis, values)
+
+=======
 
 class Signal(BaseSeries):
     """Simple signal class representing values over time."""
