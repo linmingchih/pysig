@@ -24,8 +24,4 @@ Common base class used internally by `Signal` and `Spectrum`.
 ## Persistence
 
 
-Both `Signal` and `Spectrum` provide `dump(filename)` and `load(filename)` methods for storing data in JSON or CSV format. When saving complex spectra to JSON, the real and imaginary parts are stored in separate `real` and `imag` arrays.
-=======
-Both `Signal` and `Spectrum` provide `dump(filename)` and `load(filename)` methods for storing data in JSON or CSV format.
-
 

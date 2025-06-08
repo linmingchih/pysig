@@ -44,6 +44,7 @@ sp.dump("spectrum.json")
 sp_back = ps.Spectrum.load("spectrum.json")
 =======
 
+
 ```
 
 Additional helper functions `create` and `nrange` make it easy to generate
@@ -58,6 +59,5 @@ sine = ps.create("sin(200*t)", t_axis)
 A short script `example.py` demonstrates generating a beat signal by summing two
 sine waves of slightly different frequency.
 
-=======
 
 See [help.md](help.md) for API details.

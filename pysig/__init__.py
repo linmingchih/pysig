@@ -1,11 +1,8 @@
 import numpy as np
 import plotly.graph_objects as go
-
 import json
 import csv
 import os
-=======
-
 
 __all__ = [
     "BaseSeries",
@@ -107,7 +104,7 @@ class BaseSeries:
                         },
                         f,
                     )
-=======
+
                 json.dump(
                     {
                         "axis": self.x.tolist(),
@@ -115,6 +112,7 @@ class BaseSeries:
                     },
                     f,
                 )
+
 
         elif ext == ".csv":
             with open(filename, "w", newline="") as f:
@@ -143,8 +141,9 @@ class BaseSeries:
                 values = np.array(data["real"]) + 1j * np.array(data["imag"])
             else:
                 values = data["values"]
-=======
+
             values = data["values"]
+
 
         elif ext == ".csv":
             with open(filename, "r", newline="") as f:
@@ -162,10 +161,6 @@ class BaseSeries:
             raise ValueError("Unsupported file extension")
 
         return cls(axis, values)
-
-
-=======
-=======
 
 
 class Signal(BaseSeries):
