@@ -1,6 +1,12 @@
 import numpy as np
 import plotly.graph_objects as go
 
+import json
+import csv
+import os
+=======
+
+
 __all__ = [
     "BaseSeries",
     "Signal",
@@ -75,6 +81,62 @@ class BaseSeries:
 
     def __neg__(self):
         return self.__class__(self.x, -self.values)
+
+
+    # ---- persistence ------------------------------------------------------
+    def dump(self, filename):
+        """Save data to ``filename`` in JSON or CSV format."""
+        ext = os.path.splitext(filename)[1].lower()
+        if ext == ".json":
+            with open(filename, "w", encoding="utf-8") as f:
+                json.dump(
+                    {
+                        "axis": self.x.tolist(),
+                        "values": self.values.tolist(),
+                    },
+                    f,
+                )
+        elif ext == ".csv":
+            with open(filename, "w", newline="") as f:
+                writer = csv.writer(f)
+                if np.iscomplexobj(self.values):
+                    writer.writerow(["axis", "real", "imag"])
+                    for x, v in zip(self.x, self.values):
+                        writer.writerow([x, float(v.real), float(v.imag)])
+                else:
+                    writer.writerow(["axis", "value"])
+                    for x, v in zip(self.x, self.values):
+                        writer.writerow([x, float(v)])
+        else:
+            raise ValueError("Unsupported file extension")
+
+    @classmethod
+    def load(cls, filename):
+        """Load data from ``filename`` and return a new instance."""
+        ext = os.path.splitext(filename)[1].lower()
+        if ext == ".json":
+            with open(filename, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            axis = data["axis"]
+            values = data["values"]
+        elif ext == ".csv":
+            with open(filename, "r", newline="") as f:
+                reader = csv.reader(f)
+                header = next(reader)
+                axis = []
+                values = []
+                for row in reader:
+                    axis.append(float(row[0]))
+                    if header == ["axis", "real", "imag"]:
+                        values.append(float(row[1]) + 1j * float(row[2]))
+                    else:
+                        values.append(float(row[1]))
+        else:
+            raise ValueError("Unsupported file extension")
+
+        return cls(axis, values)
+
+=======
 
 class Signal(BaseSeries):
     """Simple signal class representing values over time."""
