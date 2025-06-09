@@ -19,7 +19,7 @@ __all__ = [
 
 
 class BaseSeries:
-    """Base class for ordered data used by :class:`Signal` and :class:`Spectrum`."""
+    """Base class for ordered data used by ``Signal`` and ``Spectrum``."""
 
     def __init__(self, axis, values):
         self.x = np.asarray(axis, dtype=float)
@@ -79,8 +79,8 @@ class BaseSeries:
     def __neg__(self):
         return self.__class__(self.x, -self.values)
 
-
     # ---- persistence ------------------------------------------------------
+
     def dump(self, filename):
         """Save data to ``filename`` in JSON or CSV format."""
         ext = os.path.splitext(filename)[1].lower()
@@ -105,7 +105,6 @@ class BaseSeries:
                         f,
                     )
 
-
                 json.dump(
                     {
                         "axis": self.x.tolist(),
@@ -113,8 +112,6 @@ class BaseSeries:
                     },
                     f,
                 )
-
-
 
         elif ext == ".csv":
             with open(filename, "w", newline="") as f:
@@ -144,10 +141,7 @@ class BaseSeries:
             else:
                 values = data["values"]
 
-
             values = data["values"]
-
-
 
         elif ext == ".csv":
             with open(filename, "r", newline="") as f:
@@ -166,6 +160,7 @@ class BaseSeries:
 
         return cls(axis, values)
 
+
 class Signal(BaseSeries):
     """Simple signal class representing values over time."""
 
@@ -175,7 +170,6 @@ class Signal(BaseSeries):
     @property
     def times(self):
         return self.x
-
 
     def value(self, time):
         """Return signal value interpolated at given time."""
@@ -209,7 +203,6 @@ class Spectrum(BaseSeries):
     @property
     def freqs(self):
         return self.x
-
 
     def ifft(self, n=None):
         """Return the time-domain signal using IFFT."""
@@ -250,14 +243,12 @@ def db(spectrum):
     return 20 * np.log10(np.abs(spectrum.values))
 
 
-
 def plot(*items, filename="plot.html"):
     """Plot signals or spectra using Plotly.
 
     All data are written to ``filename`` as a self-contained HTML file and the
     file is opened in the default browser.  The resulting figure supports
     interactive changes to color and line style through the Plotly UI."""
-
 
     fig = go.Figure()
     for idx, item in enumerate(items):
@@ -294,7 +285,6 @@ def plot(*items, filename="plot.html"):
 
     fig.write_html(filename, auto_open=True)
     return fig
-
 
 
 def nrange(start, stop, step):
